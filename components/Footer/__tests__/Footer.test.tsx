@@ -21,7 +21,10 @@ jest.mock("next/image", () => ({
 
 // Link doesn't need complex mocking either for basic tests
 jest.mock("next/link", () => {
-  return ({ children }: { children: React.ReactNode }) => children;
+  // eslint-disable-next-line react/display-name
+  return ({ children }: { children: React.ReactNode }) => (
+    <a href="#">{children}</a>
+  );
 });
 
 import { NextRouter, useRouter } from "next/router";

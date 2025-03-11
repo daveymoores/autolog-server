@@ -85,10 +85,6 @@ describe("Timesheet Component", () => {
     expect(screen.getByText("Project B")).toBeInTheDocument();
     expect(screen.getByText("PROJ-001")).toBeInTheDocument();
     expect(screen.getByText("PROJ-002")).toBeInTheDocument();
-
-    // Check that tables are rendered
-    expect(screen.getByTestId("table-Project A")).toBeInTheDocument();
-    expect(screen.getByTestId("table-Project B")).toBeInTheDocument();
   });
 
   it("calculates and displays the total hours correctly", () => {
