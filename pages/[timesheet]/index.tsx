@@ -84,7 +84,6 @@ interface Context extends ParsedUrlQuery {
   timesheet: string;
 }
 
- 
 // @ts-ignore
 export const getServerSideProps: GetServerSideProps<
   TimesheetGenServerResponse<TimesheetResponseProps>,
