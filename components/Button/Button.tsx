@@ -4,7 +4,7 @@ interface ButtonProps extends Partial<ButtonHTMLAttributes<HTMLButtonElement>> {
   text: string;
 }
 
-const Button: React.FC<ButtonProps> = ({ type, text, onClick }) => (
+const Button: React.FC<ButtonProps> = ({ type = "button", text, onClick }) => (
   <button
     type={type}
     onClick={onClick}

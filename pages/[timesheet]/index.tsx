@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
-import React, { ReactInstance } from "react";
+import React from "react";
 import { toast } from "react-hot-toast";
 
 import Button from "../../components/Button/Button";
@@ -19,7 +19,7 @@ const Index: React.FC<{ params: TimesheetProps }> = ({
   params: { timesheets, path, ...props },
 }) => {
   const router = useRouter();
-  const componentRef = React.useRef<ReactInstance>(null);
+  const componentRef = React.useRef(null);
   const days = getDays(props.month_year);
   const { query } = router ?? {};
 

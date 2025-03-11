@@ -11,7 +11,6 @@ export interface CommandProps {
 
 const Command: React.FC<CommandProps> = ({ code, heading }) => {
   const systemTheme = useSystemTheme("dark");
-
   return (
     <>
       <section>

@@ -17,15 +17,13 @@ const Footer: React.FC = () => {
         ) : null}
         <div className="mt-24">
           <Link href="/" passHref>
-            <a>
-              <Image
-                src="/logo.svg"
-                width={114}
-                height={24}
-                priority={true}
-                layout="fixed"
-              />
-            </a>
+            <Image
+              alt="Autolog Logo"
+              src="/logo.svg"
+              width={114}
+              height={24}
+              priority={true}
+            />
           </Link>
         </div>
       </nav>

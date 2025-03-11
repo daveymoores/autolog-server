@@ -1,34 +1,34 @@
-import React, { ForwardedRef, LegacyRef, ReactInstance } from "react";
+import React, { ReactNode } from "react";
 
 import { TimesheetProps } from "../../types/Timesheet.types";
 import Table from "../Table/Table";
 
 interface Props extends Omit<TimesheetProps, "timesheet"> {
   days: number;
-  printButton: JSX.Element;
+  printButton: ReactNode;
 }
 
 // eslint-disable-next-line react/display-name
-const Timesheet = React.forwardRef<ReactInstance, Props>(
-  (
-    { timesheets, client, user, month_year, printButton },
-    ref: ForwardedRef<ReactInstance>
-  ) => {
+const Timesheet = React.forwardRef<HTMLDivElement, Props>(
+  ({ timesheets, client, user, month_year, printButton }, ref) => {
     return (
-      <div ref={ref as unknown as LegacyRef<HTMLDivElement> | undefined}>
+      <div ref={ref}>
         <div className="container mt-10 grid grid-cols-12">
           <div className="col-span-12 lg:col-span-10 lg:col-start-2">
             <header className="mt-4 md:mt-10 flex flex-col md:flex-row gap-3 justify-between">
-              <div className="mb-4 md:mb-none">
-                <h2 className="font-semibold text-slate-500 text-lg">
-                  Timesheet
-                </h2>
-                <h1 className="font-bold text-green-100 text-4xl lg:text-5xl">
-                  {month_year}
-                </h1>
-              </div>
-
-              {printButton}
+              <>
+                <div className="mb-4 md:mb-none">
+                  <h2 className="font-semibold text-slate-500 text-lg">
+                    Timesheet
+                  </h2>
+                  <h1 className="font-bold text-green-100 text-4xl lg:text-5xl">
+                    {month_year}
+                  </h1>
+                </div>
+                <div className="self-center align-top hidden md:block">
+                  {printButton}
+                </div>
+              </>
             </header>
 
             <div className="sm:mt-10 flex flex-col sm:flex-row gap-6 sm:gap-14 md:gap-20">
@@ -66,7 +66,6 @@ const Timesheet = React.forwardRef<ReactInstance, Props>(
             </div>
           </div>
         </div>
-
         <div className="w-full">
           {timesheets.map((timesheet, index) => (
             <React.Fragment key={index}>
@@ -91,7 +90,6 @@ const Timesheet = React.forwardRef<ReactInstance, Props>(
             </React.Fragment>
           ))}
         </div>
-
         <div className="flex text-center w-full justify-center mt-16">
           <h3 className="flex flex-col">
             <span className="font-semibold text-slate-500 text-xl mb-1">
