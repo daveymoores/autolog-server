@@ -6,6 +6,7 @@ import React from "react";
 const Footer: React.FC = () => {
   const router = useRouter();
   const { query } = router ?? {};
+
   return (
     <footer className="bg-black mt-24">
       <nav className="container font-semibold flex justify-center flex-col align-middle items-center gap-2 py-16">

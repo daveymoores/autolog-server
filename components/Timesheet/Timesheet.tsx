@@ -8,7 +8,7 @@ interface Props extends Omit<TimesheetProps, "timesheet"> {
   printButton: ReactNode;
 }
 
-// eslint-disable-next-line react/display-name
+ 
 const Timesheet = React.forwardRef<HTMLDivElement, Props>(
   ({ timesheets, client, user, month_year, printButton }, ref) => {
     return (

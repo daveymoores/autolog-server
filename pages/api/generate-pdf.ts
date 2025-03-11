@@ -60,7 +60,7 @@ export default async function handler(
     });
 
     const page = await browser.newPage();
-    console.log(`${siteUrl}/${path}?print=true`);
+    console.info(`${siteUrl}/${path}?print=true`);
     // Navigate to the page you want to capture
     await page.goto(`${siteUrl}/${path}?print=true`, {
       waitUntil: "networkidle0",

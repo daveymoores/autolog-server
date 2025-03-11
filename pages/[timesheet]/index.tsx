@@ -30,6 +30,7 @@ const Index: React.FC<{ params: TimesheetProps }> = ({
           if (!response.ok) {
             throw new Error("Failed to generate PDF");
           }
+
           return response.blob();
         })
         .then((blob) => {
@@ -83,7 +84,7 @@ interface Context extends ParsedUrlQuery {
   timesheet: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+ 
 // @ts-ignore
 export const getServerSideProps: GetServerSideProps<
   TimesheetGenServerResponse<TimesheetResponseProps>,
@@ -99,6 +100,7 @@ export const getServerSideProps: GetServerSideProps<
     try {
       const { mongoCollection } = await connect_to_db(env_vars);
       const query = { random_path };
+
       return await mongoCollection.findOne(query);
     } catch (error) {
       throw new Error(`Unable to connect to db: ${error}`);
