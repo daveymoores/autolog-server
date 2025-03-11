@@ -6,6 +6,7 @@ import React from "react";
 const Footer: React.FC = () => {
   const router = useRouter();
   const { query } = router ?? {};
+
   return (
     <footer className="bg-black mt-24">
       <nav className="container font-semibold flex justify-center flex-col align-middle items-center gap-2 py-16">
@@ -17,15 +18,13 @@ const Footer: React.FC = () => {
         ) : null}
         <div className="mt-24">
           <Link href="/" passHref>
-            <a>
-              <Image
-                src="/logo.svg"
-                width={114}
-                height={24}
-                priority={true}
-                layout="fixed"
-              />
-            </a>
+            <Image
+              alt="Autolog Logo"
+              src="/logo.svg"
+              width={114}
+              height={24}
+              priority={true}
+            />
           </Link>
         </div>
       </nav>

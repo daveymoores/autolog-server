@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
-import React, { ReactInstance } from "react";
+import React from "react";
 import { toast } from "react-hot-toast";
 
 import Button from "../../components/Button/Button";
@@ -19,7 +19,7 @@ const Index: React.FC<{ params: TimesheetProps }> = ({
   params: { timesheets, path, ...props },
 }) => {
   const router = useRouter();
-  const componentRef = React.useRef<ReactInstance>(null);
+  const componentRef = React.useRef(null);
   const days = getDays(props.month_year);
   const { query } = router ?? {};
 
@@ -30,6 +30,7 @@ const Index: React.FC<{ params: TimesheetProps }> = ({
           if (!response.ok) {
             throw new Error("Failed to generate PDF");
           }
+
           return response.blob();
         })
         .then((blob) => {
@@ -83,7 +84,7 @@ interface Context extends ParsedUrlQuery {
   timesheet: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+ 
 // @ts-ignore
 export const getServerSideProps: GetServerSideProps<
   TimesheetGenServerResponse<TimesheetResponseProps>,
@@ -99,6 +100,7 @@ export const getServerSideProps: GetServerSideProps<
     try {
       const { mongoCollection } = await connect_to_db(env_vars);
       const query = { random_path };
+
       return await mongoCollection.findOne(query);
     } catch (error) {
       throw new Error(`Unable to connect to db: ${error}`);

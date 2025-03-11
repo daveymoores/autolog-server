@@ -2,6 +2,7 @@ export const ENV_VARS: { [key: string]: string } = {
   MONGODB_URI: "MONGODB_URI",
   MONGODB_DB: "MONGODB_DB",
   MONGODB_COLLECTION: "MONGODB_COLLECTION",
+  SITE_URL: "SITE_URL",
 } as const;
 
 const get_env_vars = (connection_vars: { [key: string]: string }) => {

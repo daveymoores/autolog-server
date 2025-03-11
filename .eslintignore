@@ -1,8 +1,0 @@
- .idea
-.next
-public
-build
-.github
-.cache
-package.json
-package-lock.json

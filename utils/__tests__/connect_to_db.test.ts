@@ -14,40 +14,41 @@ describe("connect_to_db", () => {
       MONGODB_URI: "test",
       MONGODB_DB: "test",
       MONGODB_COLLECTION: "test",
+      SITE_URL: "vars",
     };
     const obj = await connect_to_db(connection_vars);
     expect(obj).toMatchInlineSnapshot(`
-      Object {
-        "client": Object {
+      {
+        "client": {
           "connect": [MockFunction] {
-            "calls": Array [
-              Array [],
+            "calls": [
+              [],
             ],
-            "results": Array [
-              Object {
+            "results": [
+              {
                 "type": "return",
                 "value": undefined,
               },
             ],
           },
           "db": [MockFunction] {
-            "calls": Array [
-              Array [
+            "calls": [
+              [
                 "test",
               ],
             ],
-            "results": Array [
-              Object {
+            "results": [
+              {
                 "type": "return",
-                "value": Object {
+                "value": {
                   "collection": [MockFunction] {
-                    "calls": Array [
-                      Array [
+                    "calls": [
+                      [
                         "test",
                       ],
                     ],
-                    "results": Array [
-                      Object {
+                    "results": [
+                      {
                         "type": "return",
                         "value": undefined,
                       },
@@ -58,15 +59,15 @@ describe("connect_to_db", () => {
             ],
           },
         },
-        "database": Object {
+        "database": {
           "collection": [MockFunction] {
-            "calls": Array [
-              Array [
+            "calls": [
+              [
                 "test",
               ],
             ],
-            "results": Array [
-              Object {
+            "results": [
+              {
                 "type": "return",
                 "value": undefined,
               },

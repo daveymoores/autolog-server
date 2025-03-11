@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Input renders input unchanged 1`] = `
-<input
-  className="jsx-3861775726 t-gen--cell"
-  type="text"
-/>
-`;
