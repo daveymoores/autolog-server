@@ -8,7 +8,6 @@ interface Props extends Omit<TimesheetProps, "timesheet"> {
   printButton: ReactNode;
 }
 
- 
 const Timesheet = React.forwardRef<HTMLDivElement, Props>(
   ({ timesheets, client, user, month_year, printButton }, ref) => {
     return (
@@ -107,5 +106,7 @@ const Timesheet = React.forwardRef<HTMLDivElement, Props>(
     );
   }
 );
+
+Timesheet.displayName = "Timesheet";
 
 export default Timesheet;

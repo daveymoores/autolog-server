@@ -77,16 +77,15 @@ interface TimesheetGenServerResponse<T> {
 }
 
 interface NotFound {
-  notFound: boolean;
+  notFound: true;
 }
 
 interface Context extends ParsedUrlQuery {
   timesheet: string;
 }
 
-// @ts-ignore
 export const getServerSideProps: GetServerSideProps<
-  TimesheetGenServerResponse<TimesheetResponseProps>,
+  { params: TimesheetProps },
   Context
 > = async (
   context

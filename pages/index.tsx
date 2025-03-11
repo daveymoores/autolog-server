@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Link from "next/link";
 import React from "react";
 
 import Button from "../components/Button/Button";
@@ -87,7 +88,12 @@ const Home: NextPage = () => {
               </p>
             </div>
 
-            <Button text="See the docs" />
+            <Link
+              href="/documentation"
+              className="drop-shadow-1xl py-2 px-4 bg-gradient-to-tl from-indigo-500 to-indigo-700 text-white text-md rounded-md shadow focus:outline-none"
+            >
+              See the docs
+            </Link>
           </div>
         </div>
       </div>
