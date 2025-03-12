@@ -56,14 +56,42 @@ export default async function handler(
         "--password-store=basic",
         "--use-gl=swiftshader",
         "--use-mock-keychain",
+        "--font-render-hinting=none", // Improve font rendering
       ],
     });
 
     const page = await browser.newPage();
+
+    // Preload fonts and ensure they're ready before PDF generation
+    await page.evaluateOnNewDocument(() => {
+      // This forces the browser to download and use web fonts
+      window.addEventListener("load", async () => {
+        if (document.fonts && document.fonts.ready) {
+          await document.fonts.ready;
+          console.info("All fonts loaded and ready");
+        }
+      });
+    });
+
     console.info(`${siteUrl}/${path}?print=true`);
+
     // Navigate to the page you want to capture
     await page.goto(`${siteUrl}/${path}?print=true`, {
       waitUntil: "networkidle0",
+    });
+
+    // Add a delay to ensure fonts are fully loaded
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // Ensure fonts are loaded by checking document.fonts status
+    await page.evaluate(async () => {
+      if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+        // Force a repaint to ensure fonts are applied
+        document.body.style.opacity = "0.99";
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        document.body.style.opacity = "1";
+      }
     });
 
     // Generate PDF
@@ -71,6 +99,7 @@ export default async function handler(
       format: "A3",
       printBackground: true,
       scale: 0.9,
+      preferCSSPageSize: true, // Use CSS print styles when available
     });
 
     // Close the browser
@@ -81,8 +110,8 @@ export default async function handler(
 
     // Compress the PDF
     const compressedPdfBuffer = await pdfDoc.save({
-      useObjectStreams: false, // Disable object streams for better compatibility
-      updateFieldAppearances: false, // Disable field appearance updates
+      useObjectStreams: false,
+      updateFieldAppearances: false,
     });
 
     // Set the response headers to indicate a PDF file

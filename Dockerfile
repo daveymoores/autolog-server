@@ -1,5 +1,5 @@
 # Install dependencies only when needed
-FROM node:18-buster AS deps
+FROM node:22.14.0-bullseye AS deps
 WORKDIR /app
 COPY package.json yarn.lock ./
 RUN apt-get update && apt-get install -y wget gnupg unzip \
@@ -9,14 +9,14 @@ RUN apt-get update && apt-get install -y wget gnupg unzip \
 RUN yarn add puppeteer --no-save
 
 # Rebuild the source code only when needed
-FROM node:18-buster AS builder
+FROM node:22.14.0-bullseye AS builder
 WORKDIR /app
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
 RUN yarn build
 
 # Production image, copy all the files and run next
-FROM node:18-buster AS runner
+FROM node:22.14.0-bullseye AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
@@ -29,14 +29,15 @@ RUN apt-get update \
     && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/googlechrome-linux-keyring.gpg \
     && echo "deb [arch=amd64 signed-by=/usr/share/keyrings/googlechrome-linux-keyring.gpg] https://dl-ssl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list \
     && apt-get update \
-    && apt-get install -y google-chrome-stable libxss1 dbus dbus-x11 --no-install-recommends \
+    && apt-get install -y google-chrome-stable libxss1 dbus dbus-x11 fonts-liberation fontconfig --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Inter font
-RUN wget https://github.com/rsms/inter/releases/download/v3.19/Inter-3.19.zip \
-    && unzip Inter-3.19.zip -d /usr/share/fonts \
+RUN mkdir -p /usr/share/fonts/truetype/inter \
+    && wget -q https://github.com/rsms/inter/releases/download/v3.19/Inter-3.19.zip \
+    && unzip Inter-3.19.zip -d /tmp/inter \
+    && cp /tmp/inter/Inter\ Desktop/Inter-*.ttf /usr/share/fonts/truetype/inter/ \
     && fc-cache -f -v \
-    && rm Inter-3.19.zip
+    && rm -rf /tmp/inter Inter-3.19.zip
 
 # Determine the path of the installed Google Chrome
 RUN which google-chrome-stable || true
