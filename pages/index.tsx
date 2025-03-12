@@ -45,7 +45,7 @@ const Home: NextPage = () => {
             </code>
           </div>
 
-          <div className="mb-10 lg:mb-0 col-span-10 col-start-2 lg:col-span-3 lg:col-end-12 order-1 lg:order-none">
+          <div className="mb-10 lg:mb-0 col-span-12 col-start-2 lg:col-span-4 lg:col-start-9 order-1 lg:order-none">
             <h1 className="mb-6 text-3xl font-medium text-green-100 lg:my-8">
               A simple utility to{" "}
               <span className="text-green-300 font-bold">
