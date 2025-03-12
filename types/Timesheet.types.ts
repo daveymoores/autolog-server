@@ -25,6 +25,7 @@ export interface User {
   name: string;
   email: string;
   is_alias: boolean;
+  thumbnail: string;
 }
 
 export interface Approver {

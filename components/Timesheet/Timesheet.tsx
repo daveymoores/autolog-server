@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { ReactNode } from "react";
 
 import { TimesheetProps } from "../../types/Timesheet.types";
@@ -51,7 +52,13 @@ const Timesheet = React.forwardRef<HTMLDivElement, Props>(
                   Contractor
                 </h3>
                 <div className="flex flex-row gap-2 mb:gap-4">
-                  <div className="rounded-full bg-slate-500 h-10 w-10 m-1" />
+                  <Image
+                    alt={user.name}
+                    src={user.thumbnail}
+                    width="100"
+                    height="100"
+                    className="rounded-full bg-slate-500 h-10 w-10 m-1"
+                  />
                   <div className="flex flex-col">
                     <p className="font-bold text-lg md:text-2xl mb:mb-2">
                       {user.name}

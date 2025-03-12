@@ -17,6 +17,7 @@ const data: TimesheetResponseProps = {
     name: "Davey Moores",
     email: "daveymoores@gmail.com",
     is_alias: false,
+    thumbnail: "https://example.com/thumbnail.jpg",
   },
   timesheets: [
     {

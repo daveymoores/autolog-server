@@ -24,6 +24,7 @@ describe("Timesheet Component", () => {
       name: "Jane Smith",
       email: "jane@example.com",
       is_alias: false,
+      thumbnail: "https://example.com/thumbnail.jpg",
     },
     month_year: "October 2023",
     timesheets: [
