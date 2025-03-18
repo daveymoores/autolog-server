@@ -1,6 +1,11 @@
 import toast from "react-hot-toast";
+let isGenerating = false;
 
 export const generatePdf = (path: string) => {
+  if (isGenerating) return;
+
+  isGenerating = true;
+
   toast.promise(
     fetch(`/api/generate-pdf?path=${encodeURIComponent(path)}`)
       .then((response) => {
@@ -20,6 +25,9 @@ export const generatePdf = (path: string) => {
         a.remove();
         // Revoke the object URL after the download
         window.URL.revokeObjectURL(url);
+      })
+      .finally(() => {
+        isGenerating = false;
       }),
     {
       loading: "Generating PDF...",
