@@ -61,7 +61,7 @@ export const getServerSideProps: GetServerSideProps<
   const env_vars = get_env_vars(ENV_VARS);
   const DEMO_TIMESHEET_STRING = "86bczf1oqv";
 
-  const data = await getRecord(DEMO_TIMESHEET_STRING, env_vars);
+  const data = await getRecord(DEMO_TIMESHEET_STRING, env_vars, true);
 
   if (!data) {
     return {

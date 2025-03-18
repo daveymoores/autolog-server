@@ -4,10 +4,14 @@ import { ENV_VARS } from "./get_env_vars";
 
 export const getRecord = async (
   random_path: string | undefined,
-  env_vars: typeof ENV_VARS
+  env_vars: typeof ENV_VARS,
+  useDemoCollection: boolean = false
 ): Promise<TimesheetResponseProps | null> => {
   try {
-    const { mongoCollection } = await connect_to_db(env_vars);
+    const { mongoCollection } = await connect_to_db(
+      env_vars,
+      useDemoCollection
+    );
     const query = { random_path };
 
     return await mongoCollection.findOne(query);
