@@ -2,6 +2,7 @@ export const ENV_VARS: { [key: string]: string } = {
   MONGODB_URI: "MONGODB_URI",
   MONGODB_DB: "MONGODB_DB",
   MONGODB_COLLECTION: "MONGODB_COLLECTION",
+  MONGODB_DEMO_COLLECTION: "MONGODB_DEMO_COLLECTION",
   SITE_URL: "SITE_URL",
 } as const;
 
@@ -11,10 +12,9 @@ const get_env_vars = (connection_vars: { [key: string]: string }) => {
       throw new Error(`${key} is not set`);
     }
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     connection_vars[key as keyof typeof ENV_VARS] = process.env[key];
   });
+
   return connection_vars;
 };
 

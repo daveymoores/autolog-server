@@ -57,7 +57,7 @@ const Home: NextPage = () => {
               </span>{" "}
               from your Git history
             </h1>
-            <Button text="See sample timesheet" />
+            <Button href="/timesheet-demo" text="See sample timesheet" />
           </div>
 
           <div className="col-span-10 col-start-2 lg:col-start-4 lg:col-span-6 mt-12 lg:mt-32 order-3 lg:order-none">
