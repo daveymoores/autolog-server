@@ -4,13 +4,13 @@ import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 import React from "react";
 
-import Button from "../../components/Button/Button";
-import Timesheet from "../../components/Timesheet/Timesheet";
-import { TimesheetProps } from "../../types/Timesheet.types";
-import getDays from "../../utils/get_days";
-import get_env_vars, { ENV_VARS } from "../../utils/get_env_vars";
-import { getRecord } from "../../utils/get_record";
-import { generatePdf } from "../../utils/generate_pdf";
+import Button from "../components/Button/Button";
+import Timesheet from "../components/Timesheet/Timesheet";
+import { TimesheetProps } from "../types/Timesheet.types";
+import getDays from "../utils/get_days";
+import get_env_vars, { ENV_VARS } from "../utils/get_env_vars";
+import { getRecord } from "../utils/get_record";
+import { generatePdf } from "../utils/generate_pdf";
 
 const Index: React.FC<{ params: TimesheetProps }> = ({
   params: { timesheets, path, ...props },
@@ -55,11 +55,13 @@ interface Context extends ParsedUrlQuery {
 export const getServerSideProps: GetServerSideProps<
   { params: TimesheetProps },
   Context
-> = async (
-  context
-): Promise<TimesheetGenServerResponse<TimesheetProps> | NotFound> => {
+> = async (): Promise<
+  TimesheetGenServerResponse<TimesheetProps> | NotFound
+> => {
   const env_vars = get_env_vars(ENV_VARS);
-  const data = await getRecord(context?.params?.timesheet, env_vars);
+  const DEMO_TIMESHEET_STRING = "86bczf1oqv";
+
+  const data = await getRecord(DEMO_TIMESHEET_STRING, env_vars);
 
   if (!data) {
     return {

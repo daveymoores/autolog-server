@@ -16,16 +16,8 @@ export default css`
     border: none;
   }
 
-  @media (prefers-color-scheme: dark) {
-    button {
-      border-left: var(--lineWidth) solid var(--lightGreen);
-    }
-  }
-
-  @media (prefers-color-scheme: light) {
-    button {
-      border-left: var(--lineWidth) solid var(--darkGrey);
-    }
+  button {
+    border-left: var(--lineWidth) solid var(--lightGreen);
   }
 
   h3 {
@@ -44,18 +36,9 @@ export default css`
     overflow-x: scroll;
   }
 
-  @media (prefers-color-scheme: dark) {
-    code {
-      border-top: var(--lineWidth) solid var(--lightGreen);
-      background-color: var(--mistyGrey);
-    }
-  }
-
-  @media (prefers-color-scheme: light) {
-    code {
-      border-top: var(--lineWidth) solid var(--darkGrey);
-      background-color: var(--mistyGreen);
-    }
+  code {
+    border-top: var(--lineWidth) solid var(--lightGreen);
+    background-color: var(--mistyGrey);
   }
 
   section {
@@ -68,15 +51,7 @@ export default css`
     }
   }
 
-  @media (prefers-color-scheme: dark) {
-    section {
-      border: var(--lineWidth) solid var(--lightGreen);
-    }
-  }
-
-  @media (prefers-color-scheme: light) {
-    section {
-      border: var(--lineWidth) solid var(--darkGrey);
-    }
+  section {
+    border: var(--lineWidth) solid var(--lightGreen);
   }
 `;
