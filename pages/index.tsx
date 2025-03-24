@@ -49,7 +49,7 @@ const Home: NextPage = () => {
             </code>
           </div>
 
-          <div className="mb-10 lg:mb-0 col-span-12 col-start-2 lg:col-span-4 lg:col-start-9 order-1 lg:order-none">
+          <div className="mb-10 lg:mb-0 col-span-12 sm:col-span-10 sm:col-start-2 lg:col-span-4 lg:col-start-9 order-1 lg:order-none">
             <h1 className="mb-6 text-3xl font-medium text-green-100 lg:my-8">
               A simple tool to{" "}
               <span className="text-green-300 font-bold">
@@ -60,7 +60,7 @@ const Home: NextPage = () => {
             <Button href="/timesheet-demo" text="See sample timesheet" />
           </div>
 
-          <div className="col-span-10 col-start-2 lg:col-start-4 lg:col-span-6 mt-12 lg:mt-32 order-3 lg:order-none">
+          <div className="col-span-12 sm:col-span-10 sm:col-start-2 lg:col-start-4 lg:col-span-6 mt-12 lg:mt-32 order-3 lg:order-none">
             <h2 className="text-3xl font-semibold text-green-100">
               Built for{" "}
               <span className="text-green-300 font-bold">freelance</span>{" "}
@@ -76,7 +76,7 @@ const Home: NextPage = () => {
             </p>
           </div>
 
-          <div className="col-span-10 col-start-2 md:col-start-3 md:col-end-10 lg:col-start-4 lg:col-end-10 xl:col-start-4 xl:col-end-10 flex flex-col items-center order-4 lg:order-none">
+          <div className="col-span-12 md:col-start-3 md:col-end-10 lg:col-start-4 lg:col-end-10 xl:col-start-4 xl:col-end-10 flex flex-col items-center order-4 lg:order-none">
             <div className="max-w-[450px] mt-10 lg:mt-20 mb-10 lg:mb-20 p-10 rounded-md bg-green-100 text-slate-800 flex flex-col gap-6 drop-shadow-2xl">
               <p>
                 📌 <b>Automated Timesheets</b> – Instantly generate timesheets
