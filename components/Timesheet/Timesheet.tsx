@@ -83,7 +83,7 @@ const Timesheet = React.forwardRef<HTMLDivElement, Props>(
                   <p className="font-bold text-xl md:text-2xl">
                     {timesheet.namespace}
                   </p>
-                  <p className="font-bold text-xl md:text-2xl">
+                  <p className="font-bold text-md md:text-md opacity-70">
                     {timesheet.project_number}
                   </p>
                 </div>

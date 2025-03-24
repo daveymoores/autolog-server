@@ -33,6 +33,7 @@ const Documentation = () => {
                     { id: "list", label: "List Command" },
                     { id: "examples", label: "Examples" },
                     { id: "troubleshooting", label: "Troubleshooting" },
+                    { id: "privacy", label: "Privacy" },
                   ].map((section) => (
                     <a
                       key={section.id}
@@ -77,6 +78,11 @@ const Documentation = () => {
                 <h2 className="text-2xl font-bold text-green-100 mb-4">
                   Installation
                 </h2>
+                <div className="bg-slate-800 rounded-md p-4 mb-6">
+                  <p className="text-amber-400">
+                    Note: Autolog is only compatible with Apple Silicon Macs
+                  </p>
+                </div>
                 <div className="p-6 rounded-md bg-black mb-4 drop-shadow-xl">
                   <div className="text-green-100 font-mono">
                     <span className="text-green-300">$</span> brew install{" "}
@@ -421,6 +427,83 @@ const Documentation = () => {
                     <code className="bg-black px-2 py-1 rounded">-m3</code> for
                     March).
                   </p>
+                </div>
+              </section>
+
+              <section id="privacy" className="mb-12">
+                <h2 className="text-2xl font-bold text-green-100 mb-4">
+                  Data Protection & Privacy
+                </h2>
+
+                <p className="text-green-100 mb-6">
+                  Autolog follows a privacy-first approach with minimal data
+                  storage and transmission:
+                </p>
+
+                <div className="space-y-3">
+                  <div className="flex items-start space-x-3">
+                    <div className="bg-slate-800 p-2 rounded-md mt-1">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    </div>
+                    <p className="text-green-100">
+                      <span className="text-green-300 font-medium">
+                        Local Storage:
+                      </span>{" "}
+                      All primary data (Git history, time records) stays on your
+                      machine in a local SQLite database
+                    </p>
+                  </div>
+
+                  <div className="flex items-start space-x-3">
+                    <div className="bg-slate-800 p-2 rounded-md mt-1">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    </div>
+                    <p className="text-green-100">
+                      <span className="text-green-300 font-medium">
+                        Temporary Sharing:
+                      </span>{" "}
+                      Generated timesheets are stored on external servers for 24
+                      hours only
+                    </p>
+                  </div>
+
+                  <div className="flex items-start space-x-3">
+                    <div className="bg-slate-800 p-2 rounded-md mt-1">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    </div>
+                    <p className="text-green-100">
+                      <span className="text-green-300 font-medium">
+                        Minimal Data:
+                      </span>{" "}
+                      Only specific timesheet data is transmitted, never your
+                      entire database
+                    </p>
+                  </div>
+
+                  <div className="flex items-start space-x-3">
+                    <div className="bg-slate-800 p-2 rounded-md mt-1">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    </div>
+                    <p className="text-green-100">
+                      <span className="text-green-300 font-medium">
+                        Auto-Deletion:
+                      </span>{" "}
+                      Shared timesheet data is automatically deleted after 24
+                      hours
+                    </p>
+                  </div>
+
+                  <div className="flex items-start space-x-3">
+                    <div className="bg-slate-800 p-2 rounded-md mt-1">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    </div>
+                    <p className="text-green-100">
+                      <span className="text-green-300 font-medium">
+                        No Registration:
+                      </span>{" "}
+                      No user accounts or personal information collection
+                    </p>
+                  </div>
                 </div>
               </section>
 

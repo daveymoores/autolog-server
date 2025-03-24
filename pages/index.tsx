@@ -14,7 +14,7 @@ const Home: NextPage = () => {
             <code className="p-10 sm:p-14 rounded-md bg-black flex flex-col gap-6 sm:gap-8 drop-shadow-2xl">
               <span className="flex flex-col gap-y-2">
                 <span className="text-slate-600 font-mono">
-                  Install with homebrew (only on MacOS)
+                  Install with homebrew (requires Apple Silicon Mac)
                 </span>
                 <span className="text-green-100 font-mono">
                   <span className="text-green-300">$</span> brew tap{" "}
