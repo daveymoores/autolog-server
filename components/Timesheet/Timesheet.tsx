@@ -3,14 +3,44 @@ import React, { ReactNode } from "react";
 
 import { TimesheetProps } from "../../types/Timesheet.types";
 import Table from "../Table/Table";
+import Button from "../Button/Button";
+import toast from "react-hot-toast";
 
 interface Props extends Omit<TimesheetProps, "timesheet"> {
   days: number;
   printButton: ReactNode;
 }
 
+let isGenerating = false;
+
+const approveTimesheet = (path: string, signed_token: string) => {
+  if (isGenerating) return;
+
+  isGenerating = true;
+
+  toast.promise(
+    fetch(`/api/approve?timesheet_id=${path}&token=${signed_token}`).then(
+      (response) => {
+        if (response.ok) {
+          console.info(`Timesheet ${path} approved`);
+        } else {
+          console.error(`Timesheet ${path} approval failed`);
+        }
+      }
+    ),
+    {
+      loading: "Approving timesheet...",
+      success: "Timesheet approved!",
+      error: "Failed to approve timesheet",
+    }
+  );
+};
+
 const Timesheet = React.forwardRef<HTMLDivElement, Props>(
-  ({ timesheets, client, user, month_year, printButton }, ref) => {
+  (
+    { timesheets, client, user, month_year, printButton, signed_token, path },
+    ref
+  ) => {
     return (
       <div ref={ref}>
         <div className="container mt-10 grid grid-cols-12">
@@ -26,6 +56,12 @@ const Timesheet = React.forwardRef<HTMLDivElement, Props>(
                   </h1>
                 </div>
                 <div className="self-center align-top hidden md:block">
+                  {signed_token && (
+                    <Button
+                      onClick={() => approveTimesheet(path, signed_token)}
+                      text="Approve"
+                    />
+                  )}
                   {printButton}
                 </div>
               </>

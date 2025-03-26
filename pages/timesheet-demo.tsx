@@ -82,6 +82,7 @@ export const getServerSideProps: GetServerSideProps<
         client,
         user,
         month_year,
+        requires_approval: false,
       },
     },
   };

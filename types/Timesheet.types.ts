@@ -40,10 +40,14 @@ export interface TimesheetProps {
   client: Client;
   user: User;
   month_year: string;
+  signed_token?: string;
+  requires_approval: boolean;
 }
 
 export interface TimesheetResponseProps {
   _id: ObjectId;
+  requires_approval: boolean;
+  approved: boolean;
   creation_date: Date;
   month_year: string;
   random_path: string;

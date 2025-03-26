@@ -52,14 +52,21 @@ interface Context extends ParsedUrlQuery {
   timesheet: string;
 }
 
+type Query = {
+  signed_token?: string;
+};
+
 export const getServerSideProps: GetServerSideProps<
   { params: TimesheetProps },
-  Context
+  Context,
+  Query
 > = async (
   context
 ): Promise<TimesheetGenServerResponse<TimesheetProps> | NotFound> => {
+  const { signed_token }: { signed_token?: string } = context.query;
+  const { timesheet } = context.params ?? {};
   const env_vars = get_env_vars(ENV_VARS);
-  const data = await getRecord(context?.params?.timesheet, env_vars);
+  const data = await getRecord(timesheet, env_vars);
 
   if (!data) {
     return {
@@ -67,7 +74,15 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const { timesheets, client, random_path: path, month_year, user, _id } = data;
+  const {
+    requires_approval,
+    timesheets,
+    client,
+    random_path: path,
+    month_year,
+    user,
+    _id,
+  } = data;
 
   const id = new ObjectId(_id).toString();
 
@@ -80,6 +95,8 @@ export const getServerSideProps: GetServerSideProps<
         client,
         user,
         month_year,
+        signed_token,
+        requires_approval,
       },
     },
   };
