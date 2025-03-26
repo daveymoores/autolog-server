@@ -40,8 +40,11 @@ export interface TimesheetProps {
   client: Client;
   user: User;
   month_year: string;
-  signed_token?: string;
-  requires_approval: boolean;
+  signed_token: string | null;
+  requires_approval: boolean | null;
+  approved: boolean;
+  approvers_name: string | null;
+  approvers_email: string | null;
 }
 
 export interface TimesheetResponseProps {
@@ -54,4 +57,5 @@ export interface TimesheetResponseProps {
   client: Client;
   user: User;
   timesheets: Timesheet[];
+  approver: Approver;
 }

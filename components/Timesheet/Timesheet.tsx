@@ -19,15 +19,17 @@ const approveTimesheet = (path: string, signed_token: string) => {
   isGenerating = true;
 
   toast.promise(
-    fetch(`/api/approve?timesheet_id=${path}&token=${signed_token}`).then(
-      (response) => {
+    fetch(`/api/approve?timesheet_id=${path}&token=${signed_token}`)
+      .then((response) => {
         if (response.ok) {
           console.info(`Timesheet ${path} approved`);
         } else {
-          console.error(`Timesheet ${path} approval failed`);
+          throw new Error(`Timesheet ${path} approval failed`);
         }
-      }
-    ),
+      })
+      .finally(() => {
+        isGenerating = false;
+      }),
     {
       loading: "Approving timesheet...",
       success: "Timesheet approved!",
@@ -36,11 +38,67 @@ const approveTimesheet = (path: string, signed_token: string) => {
   );
 };
 
+const requestApproval = (
+  path: string,
+  user_name: string,
+  approvers_name: string,
+  approvers_email: string
+) => {
+  if (isGenerating) return;
+
+  isGenerating = true;
+
+  toast.promise(
+    fetch(`/api/request-approval?timesheet_id=${path}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_name,
+        approvers_name,
+        approvers_email,
+      }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.info(`Timesheet ${path} approval requested`);
+        } else {
+          throw new Error(`Timesheet ${path} approval request failed`);
+        }
+      })
+      .finally(() => {
+        isGenerating = false;
+      }),
+    {
+      loading: "Requesting approval...",
+      success: "Approval requested!",
+      error: "Failed to request approval",
+    }
+  );
+};
+
 const Timesheet = React.forwardRef<HTMLDivElement, Props>(
   (
-    { timesheets, client, user, month_year, printButton, signed_token, path },
+    {
+      timesheets,
+      client,
+      user,
+      month_year,
+      printButton,
+      signed_token,
+      path,
+      requires_approval,
+      approved,
+      approvers_name,
+      approvers_email,
+    },
     ref
   ) => {
+    const has_approvers_details = approvers_name && approvers_email;
+    const in_approval_workflow =
+      has_approvers_details && requires_approval && !approved;
+
     return (
       <div ref={ref}>
         <div className="container mt-10 grid grid-cols-12">
@@ -55,11 +113,26 @@ const Timesheet = React.forwardRef<HTMLDivElement, Props>(
                     {month_year}
                   </h1>
                 </div>
-                <div className="self-center align-top hidden md:block">
-                  {signed_token && (
+                <div className="self-center align-top flex flex-row gap-4">
+                  {in_approval_workflow && !signed_token && (
+                    <Button
+                      onClick={() =>
+                        requestApproval(
+                          path,
+                          user.name,
+                          approvers_name,
+                          approvers_email
+                        )
+                      }
+                      text="Request Approval"
+                      variant="secondary"
+                    />
+                  )}
+                  {in_approval_workflow && signed_token && (
                     <Button
                       onClick={() => approveTimesheet(path, signed_token)}
-                      text="Approve"
+                      text="Approve Timesheet"
+                      variant="secondary"
                     />
                   )}
                   {printButton}

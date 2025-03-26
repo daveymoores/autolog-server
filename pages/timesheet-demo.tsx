@@ -83,6 +83,10 @@ export const getServerSideProps: GetServerSideProps<
         user,
         month_year,
         requires_approval: false,
+        signed_token: null,
+        approved: false,
+        approvers_name: null,
+        approvers_email: null,
       },
     },
   };

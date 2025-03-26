@@ -20,9 +20,10 @@ export default async function handler(
     return res.status(405).json({ error: "Method Not Allowed" });
   }
 
-  const { approverEmail, timesheetId, senderName } = req.body;
+  const { timesheet_id } = req.query;
+  const { user_name, approvers_name, approvers_email } = req.body;
 
-  if (!approverEmail || !timesheetId || !senderName) {
+  if (!user_name || approvers_name || !timesheet_id || !approvers_email) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
@@ -35,18 +36,18 @@ export default async function handler(
     }
 
     // Generate signed token
-    const signedToken = generateSignedToken(timesheetId);
-    const signedUrl = `${env_vars.SITE_URL}/${timesheetId}?signed_token=${signedToken}`;
+    const signedToken = generateSignedToken(timesheet_id as string);
+    const signedUrl = `${env_vars.SITE_URL}/${timesheet_id}?signed_token=${signedToken}`;
 
     const mailgunUrl = `https://api.mailgun.net/v3/${mailgunDomain}/messages`;
 
     const formData = new URLSearchParams();
     formData.append("from", `Autolog <no-reply@${mailgunDomain}>`);
-    formData.append("to", approverEmail);
+    formData.append("to", approvers_email);
     formData.append("subject", "Timesheet Approval Request");
     formData.append(
       "text",
-      `${senderName} has submitted a timesheet for approval.\n\nReview it here: ${signedUrl}`
+      `${user_name} has submitted a timesheet for approval.\n\nReview it here: ${signedUrl}`
     );
 
     const response = await fetch(mailgunUrl, {
