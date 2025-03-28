@@ -19,7 +19,7 @@ const approveTimesheet = (path: string, signed_token: string) => {
   isGenerating = true;
 
   toast.promise(
-    fetch(`/api/approve?timesheet_id=${path}&token=${signed_token}`)
+    fetch(`/api/approve?timesheet_id=${path}&signed_token=${signed_token}`)
       .then((response) => {
         if (response.ok) {
           console.info(`Timesheet ${path} approved`);
@@ -49,17 +49,9 @@ const requestApproval = (
   isGenerating = true;
 
   toast.promise(
-    fetch(`/api/request-approval?timesheet_id=${path}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user_name,
-        approvers_name,
-        approvers_email,
-      }),
-    })
+    fetch(
+      `/api/request?timesheet_id=${path}&user_name=${user_name}&approvers_name=${approvers_name}&approvers_email=${approvers_email}`
+    )
       .then((response) => {
         if (response.ok) {
           console.info(`Timesheet ${path} approval requested`);
@@ -95,9 +87,14 @@ const Timesheet = React.forwardRef<HTMLDivElement, Props>(
     },
     ref
   ) => {
-    const has_approvers_details = approvers_name && approvers_email;
-    const in_approval_workflow =
-      has_approvers_details && requires_approval && !approved;
+    const has_approvers_details = !!(approvers_name && approvers_email);
+    const in_approval_workflow = !!(
+      has_approvers_details &&
+      requires_approval &&
+      !approved
+    );
+    console.log({ has_approvers_details, in_approval_workflow });
+    console.log({ approved });
 
     return (
       <div ref={ref}>
@@ -134,6 +131,18 @@ const Timesheet = React.forwardRef<HTMLDivElement, Props>(
                       text="Approve Timesheet"
                       variant="secondary"
                     />
+                  )}
+                  {approved && (
+                    <div className="flex items-center gap-2 bg-green-100/10 text-green-100 py-2 px-4 rounded-md">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        className="h-5 w-5 fill-current"
+                      >
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                      </svg>
+                      <span className="font-semibold">Approved</span>
+                    </div>
                   )}
                   {printButton}
                 </div>

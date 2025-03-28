@@ -16,14 +16,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method Not Allowed" });
-  }
+  const { timesheet_id, user_name, approvers_name, approvers_email } =
+    req.query;
 
-  const { timesheet_id } = req.query;
-  const { user_name, approvers_name, approvers_email } = req.body;
-
-  if (!user_name || approvers_name || !timesheet_id || !approvers_email) {
+  if (!user_name || !approvers_name || !timesheet_id || !approvers_email) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
@@ -43,7 +39,7 @@ export default async function handler(
 
     const formData = new URLSearchParams();
     formData.append("from", `Autolog <no-reply@${mailgunDomain}>`);
-    formData.append("to", approvers_email);
+    formData.append("to", approvers_email as string);
     formData.append("subject", "Timesheet Approval Request");
     formData.append(
       "text",
