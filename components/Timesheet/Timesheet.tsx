@@ -1,16 +1,102 @@
 import Image from "next/image";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react"; // Added useState
 
 import { TimesheetProps } from "../../types/Timesheet.types";
 import Table from "../Table/Table";
+import Button from "../Button/Button";
+import toast from "react-hot-toast";
 
 interface Props extends Omit<TimesheetProps, "timesheet"> {
   days: number;
   printButton: ReactNode;
 }
 
+let isGenerating = false;
+
 const Timesheet = React.forwardRef<HTMLDivElement, Props>(
-  ({ timesheets, client, user, month_year, printButton }, ref) => {
+  (
+    {
+      timesheets,
+      client,
+      user,
+      month_year,
+      printButton,
+      signed_token,
+      path,
+      requires_approval,
+      approved: initialApproved, // Rename to indicate it's the initial value
+      approvers_name,
+      approvers_email,
+    },
+    ref
+  ) => {
+    // Add local state to track approval status
+    const [isApproved, setIsApproved] = useState(initialApproved);
+
+    const has_approvers_details = !!(approvers_name && approvers_email);
+    const in_approval_workflow = !!(
+      (has_approvers_details && requires_approval && !isApproved) // Use local state instead of prop
+    );
+
+    const approveTimesheet = (path: string, signed_token: string) => {
+      if (isGenerating) return;
+
+      isGenerating = true;
+
+      toast.promise(
+        fetch(
+          `/api/approve?timesheet_id=${encodeURIComponent(
+            path
+          )}&signed_token=${encodeURIComponent(signed_token)}`
+        )
+          .then((response) => {
+            if (response.ok) {
+              console.info(`Timesheet ${path} approved`);
+              setIsApproved(true); // Update local state immediately on success
+
+              return true;
+            } else {
+              throw new Error(`Timesheet ${path} approval failed`);
+            }
+          })
+          .finally(() => {
+            isGenerating = false;
+          }),
+        {
+          loading: "Approving timesheet...",
+          success: "Timesheet approved!",
+          error: "Failed to approve timesheet",
+        }
+      );
+    };
+
+    const requestApproval = (path: string) => {
+      if (isGenerating) return;
+
+      isGenerating = true;
+
+      toast.promise(
+        fetch(`/api/request?timesheet_id=${encodeURIComponent(path)}`)
+          .then((response) => {
+            if (response.ok) {
+              console.info(`Timesheet ${path} approval requested`);
+
+              return true;
+            } else {
+              throw new Error(`Timesheet ${path} approval request failed`);
+            }
+          })
+          .finally(() => {
+            isGenerating = false;
+          }),
+        {
+          loading: "Requesting approval...",
+          success: "Approval requested!",
+          error: "Failed to request approval",
+        }
+      );
+    };
+
     return (
       <div ref={ref}>
         <div className="container mt-10 grid grid-cols-12">
@@ -25,7 +111,33 @@ const Timesheet = React.forwardRef<HTMLDivElement, Props>(
                     {month_year}
                   </h1>
                 </div>
-                <div className="self-center align-top hidden md:block">
+                <div className="self-center align-top flex flex-row gap-4">
+                  {in_approval_workflow && !signed_token && (
+                    <Button
+                      onClick={() => requestApproval(path)}
+                      text="Request Approval"
+                      variant="secondary"
+                    />
+                  )}
+                  {in_approval_workflow && signed_token && (
+                    <Button
+                      onClick={() => approveTimesheet(path, signed_token)}
+                      text="Approve Timesheet"
+                      variant="secondary"
+                    />
+                  )}
+                  {isApproved && (
+                    <div className="flex items-center gap-2 bg-green-100/10 text-green-100 py-2 px-4 rounded-md">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        className="h-5 w-5 fill-current"
+                      >
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                      </svg>
+                      <span className="font-semibold">Approved</span>
+                    </div>
+                  )}
                   {printButton}
                 </div>
               </>

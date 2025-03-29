@@ -31,6 +31,7 @@ nextApp.prepare().then(async () => {
       console.error("Failed to start server:", err);
       process.exit(1);
     }
+
     console.log(`Server is listening on port ${port}`);
   });
 });
