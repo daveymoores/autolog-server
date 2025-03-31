@@ -4,6 +4,7 @@ const config: Config = {
   testEnvironment: "jest-environment-jsdom",
   collectCoverage: true,
   coverageDirectory: "coverage",
+  setupFiles: ["./jest.setup.js"],
   collectCoverageFrom: [
     "src/**/*.{ts,tsx}",
     "components/**/*.{ts,tsx}",
@@ -27,4 +28,5 @@ const config: Config = {
     "\\.(css|less|scss|sass)$": "identity-obj-proxy",
   },
 };
+
 export default config;

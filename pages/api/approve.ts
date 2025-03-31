@@ -6,15 +6,14 @@ import get_env_vars, { ENV_VARS } from "../../utils/get_env_vars";
 import connect_to_db from "../../utils/connect_to_db";
 import { getRecord } from "../../utils/get_record";
 
-const env_vars = get_env_vars(ENV_VARS);
-
-async function sendApprovalEmail(
+export async function sendApprovalEmail(
   timesheet_id: string,
   user_name: string,
   user_email: string,
   approvers_name: string,
   period: string
 ): Promise<void> {
+  const env_vars = get_env_vars(ENV_VARS);
   const mailgun = new Mailgun(FormData);
   const mg = mailgun.client({
     username: "api",
@@ -46,17 +45,23 @@ async function sendApprovalEmail(
   }
 }
 
-function verifyToken(timesheetId: string, token: string): boolean {
-  const hmac = crypto.createHmac("sha256", env_vars.SIGNED_TOKEN_SECRET);
+function verifyToken(
+  timesheetId: string,
+  token: string,
+  secret: string
+): boolean {
+  const hmac = crypto.createHmac("sha256", secret);
   hmac.update(timesheetId);
   const expectedToken = hmac.digest("hex");
 
   return token === expectedToken;
 }
 
-async function updateTimesheetApprovalStatus(
+export async function updateTimesheetApprovalStatus(
   timesheetId: string
 ): Promise<void> {
+  const env_vars = get_env_vars(ENV_VARS);
+
   try {
     const { mongoCollection } = await connect_to_db(env_vars);
 
@@ -73,13 +78,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const env_vars = get_env_vars(ENV_VARS);
   const { timesheet_id, signed_token } = req.query;
 
   if (typeof timesheet_id !== "string" || typeof signed_token !== "string") {
     return res.status(400).json({ message: "Invalid request parameters" });
   }
 
-  if (!verifyToken(timesheet_id, signed_token)) {
+  if (!verifyToken(timesheet_id, signed_token, env_vars.SIGNED_TOKEN_SECRET)) {
     return res.status(403).json({ message: "Invalid or expired token" });
   }
 

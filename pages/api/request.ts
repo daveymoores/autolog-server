@@ -6,9 +6,9 @@ import crypto from "crypto";
 import get_env_vars, { ENV_VARS } from "../../utils/get_env_vars";
 import { getRecord } from "../../utils/get_record";
 
-const env_vars = get_env_vars(ENV_VARS);
-
 export function generateSignedToken(timesheetUrl: string): string {
+  const env_vars = get_env_vars(ENV_VARS);
+
   return crypto
     .createHmac("sha256", env_vars.SIGNED_TOKEN_SECRET)
     .update(timesheetUrl)
@@ -19,6 +19,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const env_vars = get_env_vars(ENV_VARS);
+
   const { timesheet_id } = req.query;
 
   if (!timesheet_id) {

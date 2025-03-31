@@ -1,2 +1,3 @@
-import "@testing-library/jest-dom/extend-expect";
-import "@testing-library/jest-dom";
+const { TextEncoder, TextDecoder } = require("util");
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { ReactNode, useState } from "react"; // Added useState
+import React, { ReactNode, useState } from "react";
 
 import { TimesheetProps } from "../../types/Timesheet.types";
 import Table from "../Table/Table";
