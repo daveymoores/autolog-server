@@ -24,7 +24,7 @@ const Timesheet = React.forwardRef<HTMLDivElement, Props>(
       signed_token,
       path,
       requires_approval,
-      approved: initialApproved, // Rename to indicate it's the initial value
+      approved: initialApproved,
       approvers_name,
       approvers_email,
     },
@@ -198,7 +198,7 @@ const Timesheet = React.forwardRef<HTMLDivElement, Props>(
                 <p className="font-semibold text-md md:text-lg mb-2 text-green-100/80">
                   {client.client_contact_person}
                 </p>
-                <p className="font-semibold text-md md:text-lg flex flex-col text-green-100/80">
+                <p className="font-semibold text-md md:text-md flex flex-col text-green-100/80">
                   {client.client_address.split(/\n/).map((text, index) => (
                     <span key={index}>{text}</span>
                   ))}

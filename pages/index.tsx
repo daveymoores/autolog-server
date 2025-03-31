@@ -71,8 +71,10 @@ const Home: NextPage = () => {
               you track client projects without manual time logging. Just
               initialize once per repository, and at the end of the month,
               generate a timesheet in seconds—collating all worked days across
-              multiple projects. A simple way to turn your commits into a
-              shareable timesheet.
+              multiple projects. When ready, request approval from clients or
+              managers with a click, streamlining the final step in your
+              invoicing process. From commits to approved timesheets, all in one
+              straightforward workflow.
             </p>
           </div>
 
@@ -86,6 +88,11 @@ const Home: NextPage = () => {
                 🔗 <b>Private, Temporary Links</b> – Generate a <b>one-time</b>{" "}
                 link (valid for 24 hours) to share timesheets, without storing
                 data online long-term.
+              </p>
+              <p>
+                ✅ <b>Timesheet Approval</b> – Request and receive client
+                approval through secure, tokenized links for official
+                verification of work hours.
               </p>
               <p>
                 🗂 <b>Multi-Client & Multi-Repo Support</b> – Track hours across

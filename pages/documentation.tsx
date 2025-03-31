@@ -31,6 +31,7 @@ const Documentation = () => {
                     { id: "remove", label: "Remove Command" },
                     { id: "update", label: "Update Command" },
                     { id: "list", label: "List Command" },
+                    { id: "approval", label: "Timesheet Approval" },
                     { id: "examples", label: "Examples" },
                     { id: "troubleshooting", label: "Troubleshooting" },
                     { id: "privacy", label: "Privacy" },
@@ -67,10 +68,14 @@ const Documentation = () => {
                   from your git log.
                 </p>
                 <p className="text-green-100">
-                  Autolog is a minimal configuration, simple timesheet tool for
-                  sharing via PDF download or unique link. It allows you to
-                  track time spent on projects using git repositories as the
-                  basis for organization.
+                  Autolog is a minimal configuration timesheet tool that
+                  leverages your git activity to generate professional
+                  timesheets. Simply initialize repositories under a client,
+                  continue with your normal git workflow, and Autolog
+                  automatically tracks your active days based on commits. When
+                  needed, generate a timesheet that allocates hours across your
+                  repositories, request manager approval with a click, and share
+                  via PDF or secure link.
                 </p>
               </section>
 
@@ -85,16 +90,11 @@ const Documentation = () => {
                 </div>
                 <div className="p-6 rounded-md bg-black mb-4 drop-shadow-xl">
                   <div className="text-green-100 font-mono">
-                    <span className="text-green-300">$</span> brew install{" "}
-                    <span className="text-rose-500">autolog</span>
+                    <span className="text-green-300">$</span> brew tap{" "}
+                    <span className="text-rose-500">daveymoores/autolog</span>
                   </div>
-                </div>
-                <p className="text-green-100">
-                  Alternatively, you can install with Cargo:
-                </p>
-                <div className="p-6 rounded-md bg-black mb-4 mt-4 drop-shadow-xl">
                   <div className="text-green-100 font-mono">
-                    <span className="text-green-300">$</span> cargo install{" "}
+                    <span className="text-green-300">$</span> brew install{" "}
                     <span className="text-rose-500">autolog</span>
                   </div>
                 </div>
@@ -341,6 +341,65 @@ const Documentation = () => {
                 </div>
                 <p className="text-green-100 mb-4">
                   Lists all clients and their associated repositories.
+                </p>
+              </section>
+
+              <section id="approval" className="mb-12">
+                <h2 className="text-2xl font-bold text-green-100 mb-4">
+                  Timesheet Approval Process
+                </h2>
+
+                <div className="bg-amber-900/30 border border-amber-500/40 rounded-md p-4 mb-6">
+                  <p className="text-amber-200 text-sm">
+                    <span className="font-bold">Note:</span> The approval
+                    workflow requires an approver to be configured for your
+                    client. Set up an approver after initialization using{" "}
+                    <code className="bg-black px-2 py-1 rounded">
+                      autolog update --client &lt;client-name&gt;
+                    </code>
+                    which will prompt you to enter approver details.
+                  </p>
+                </div>
+
+                <p className="text-green-100 mb-6">
+                  Once an approver is configured, Autolog offers a
+                  straightforward approval workflow:
+                </p>
+
+                <div className="bg-slate-800 rounded-md p-6 mb-6">
+                  <ol className="space-y-4 text-green-100 list-decimal pl-5">
+                    <li>
+                      <span className="text-green-300 font-medium">
+                        Submit for review:
+                      </span>{" "}
+                      Click "Request Approval" when your timesheet is complete
+                    </li>
+                    <li>
+                      <span className="text-green-300 font-medium">
+                        Manager review:
+                      </span>{" "}
+                      Your approver receives an email with a secure link to your
+                      timesheet
+                    </li>
+                    <li>
+                      <span className="text-green-300 font-medium">
+                        Approval action:
+                      </span>{" "}
+                      After reviewing, your manager can approve with one click
+                    </li>
+                    <li>
+                      <span className="text-green-300 font-medium">
+                        Confirmation:
+                      </span>{" "}
+                      You'll receive an email notification when your timesheet
+                      is approved
+                    </li>
+                  </ol>
+                </div>
+
+                <p className="text-green-100 text-sm italic">
+                  All approval links are secured with cryptographic tokens to
+                  ensure only authorized users can approve timesheets.
                 </p>
               </section>
 
