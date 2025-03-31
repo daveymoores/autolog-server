@@ -83,8 +83,10 @@ export const getServerSideProps: GetServerSideProps<
     user,
     _id,
     approved,
-    approver: { approvers_name, approvers_email },
+    approver,
   } = data;
+
+  const { approvers_name, approvers_email } = approver ?? {};
 
   const signed_token = token ?? null;
 

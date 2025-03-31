@@ -38,7 +38,7 @@ const Navigation: React.FC = () => {
                 href="https://github.com/daveymoores/autolog/releases"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="absolute right-[-10px] ml-auto text-xs bg-slate-800 text-green-300 rounded-full py-1 flex items-center"
+                className="absolute right-[-10px] ml-auto text-xs text-green-300 rounded-full py-1 flex items-center"
               >
                 v{version}
               </a>
