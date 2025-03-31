@@ -40,7 +40,6 @@ const Timesheet = React.forwardRef<HTMLDivElement, Props>(
 
     const approveTimesheet = (path: string, signed_token: string) => {
       if (isGenerating) return;
-
       isGenerating = true;
 
       toast.promise(
@@ -49,15 +48,39 @@ const Timesheet = React.forwardRef<HTMLDivElement, Props>(
             path
           )}&signed_token=${encodeURIComponent(signed_token)}`
         )
-          .then((response) => {
+          .then(async (response) => {
             if (response.ok) {
               console.info(`Timesheet ${path} approved`);
               setIsApproved(true); // Update local state immediately on success
 
               return true;
             } else {
-              throw new Error(`Timesheet ${path} approval failed`);
+              // Check content type to determine how to parse the error
+              const contentType = response.headers.get("content-type");
+
+              if (contentType && contentType.includes("application/json")) {
+                // Parse JSON error
+                const errorData = await response.json();
+                throw new Error(
+                  errorData.message ||
+                    errorData.error ||
+                    `Approval failed (${response.status})`
+                );
+              } else {
+                // Parse text error
+                const errorText = await response.text();
+                throw new Error(
+                  errorText ||
+                    `Approval failed (${response.status}: ${response.statusText})`
+                );
+              }
             }
+          })
+          .catch((error) => {
+            // Log the full error for debugging
+            console.error("Approval error:", error);
+            // Re-throw so toast can catch it
+            throw error;
           })
           .finally(() => {
             isGenerating = false;
@@ -65,26 +88,49 @@ const Timesheet = React.forwardRef<HTMLDivElement, Props>(
         {
           loading: "Approving timesheet...",
           success: "Timesheet approved!",
-          error: "Failed to approve timesheet",
+          error: (err) => `${err.message || "Failed to approve timesheet"}`,
         }
       );
     };
 
     const requestApproval = (path: string) => {
       if (isGenerating) return;
-
       isGenerating = true;
 
       toast.promise(
         fetch(`/api/request?timesheet_id=${encodeURIComponent(path)}`)
-          .then((response) => {
+          .then(async (response) => {
             if (response.ok) {
               console.info(`Timesheet ${path} approval requested`);
 
               return true;
             } else {
-              throw new Error(`Timesheet ${path} approval request failed`);
+              // Check content type to determine how to parse the error
+              const contentType = response.headers.get("content-type");
+
+              if (contentType && contentType.includes("application/json")) {
+                // Parse JSON error
+                const errorData = await response.json();
+                throw new Error(
+                  errorData.message ||
+                    errorData.error ||
+                    `Request failed (${response.status})`
+                );
+              } else {
+                // Parse text error
+                const errorText = await response.text();
+                throw new Error(
+                  errorText ||
+                    `Request failed (${response.status}: ${response.statusText})`
+                );
+              }
             }
+          })
+          .catch((error) => {
+            // Log the full error for debugging
+            console.error("Request approval error:", error);
+            // Re-throw so toast can catch it
+            throw error;
           })
           .finally(() => {
             isGenerating = false;
@@ -92,7 +138,7 @@ const Timesheet = React.forwardRef<HTMLDivElement, Props>(
         {
           loading: "Requesting approval...",
           success: "Approval requested!",
-          error: "Failed to request approval",
+          error: (err) => `${err.message || "Failed to request approval"}`,
         }
       );
     };
