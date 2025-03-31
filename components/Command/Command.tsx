@@ -1,5 +1,4 @@
 import React from "react";
-import useSystemTheme from "react-use-system-theme";
 
 import palette from "../../utils/palette";
 import styles from "./Command.styles";
@@ -10,8 +9,6 @@ export interface CommandProps {
 }
 
 const Command: React.FC<CommandProps> = ({ code, heading }) => {
-  const systemTheme = useSystemTheme("dark");
-
   return (
     <>
       <section>
@@ -29,21 +26,13 @@ const Command: React.FC<CommandProps> = ({ code, heading }) => {
               <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
                 <g
                   transform="translate(-448.000000, -11.000000)"
-                  stroke={
-                    systemTheme === "dark"
-                      ? palette.LIGHT_GREEN
-                      : palette.DARK_GREY
-                  }
+                  stroke={palette.LIGHT_GREEN}
                   strokeWidth="3"
                 >
                   <g transform="translate(448.000000, 11.000000)">
                     <rect x="1.5" y="1.5" width="19" height="19" rx="2" />
                     <rect
-                      fill={
-                        systemTheme === "dark"
-                          ? palette.MISTY_GREY
-                          : palette.MISTY_GREEN
-                      }
+                      fill={palette.MISTY_GREY}
                       x="8.5"
                       y="8.5"
                       width="19"

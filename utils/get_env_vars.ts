@@ -1,12 +1,15 @@
-export const ENV_VARS: { [key: string]: string } = {
+export const ENV_VARS = {
   MONGODB_URI: "MONGODB_URI",
   MONGODB_DB: "MONGODB_DB",
   MONGODB_COLLECTION: "MONGODB_COLLECTION",
   MONGODB_DEMO_COLLECTION: "MONGODB_DEMO_COLLECTION",
   SITE_URL: "SITE_URL",
-} as const;
+  MAILGUN_API_KEY: "MAILGUN_API_KEY",
+  MAILGUN_DOMAIN: "MAILGUN_DOMAIN",
+  SIGNED_TOKEN_SECRET: "SIGNED_TOKEN_SECRET",
+};
 
-const get_env_vars = (connection_vars: { [key: string]: string }) => {
+const get_env_vars = (connection_vars: typeof ENV_VARS) => {
   Object.entries(connection_vars).forEach(([key]) => {
     if (!process.env[key]) {
       throw new Error(`${key} is not set`);

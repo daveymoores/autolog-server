@@ -13,6 +13,11 @@ describe("Timesheet Component", () => {
     path: "/timesheet/789",
     days: 31,
     printButton: <button>Print</button>,
+    signed_token: "12345",
+    approvers_name: "John Doe",
+    approvers_email: "john@example.com",
+    requires_approval: true,
+    approved: false,
     client: {
       id: "123",
       client_name: "Test Client",

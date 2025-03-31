@@ -15,6 +15,10 @@ describe("connect_to_db", () => {
       MONGODB_DB: "test",
       MONGODB_COLLECTION: "test",
       SITE_URL: "vars",
+      MONGODB_DEMO_COLLECTION: "test",
+      MAILGUN_API_KEY: "test",
+      MAILGUN_DOMAIN: "test",
+      SIGNED_TOKEN_SECRET: "test",
     };
     const obj = await connect_to_db(connection_vars);
     expect(obj).toMatchInlineSnapshot(`

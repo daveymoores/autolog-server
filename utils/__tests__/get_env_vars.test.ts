@@ -18,6 +18,9 @@ describe("get_connection_vars", () => {
     process.env.MONGODB_COLLECTION = "env";
     process.env.MONGODB_DEMO_COLLECTION = "demo";
     process.env.SITE_URL = "vars";
+    process.env.MAILGUN_API_KEY = "test";
+    process.env.MAILGUN_DOMAIN = "test";
+    process.env.SIGNED_TOKEN_SECRET = "test";
 
     expect(get_env_vars(ENV_VARS)).toEqual({
       MONGODB_URI: "these",
@@ -25,6 +28,9 @@ describe("get_connection_vars", () => {
       MONGODB_COLLECTION: "env",
       MONGODB_DEMO_COLLECTION: "demo",
       SITE_URL: "vars",
+      MAILGUN_API_KEY: "test",
+      MAILGUN_DOMAIN: "test",
+      SIGNED_TOKEN_SECRET: "test",
     });
   });
 
