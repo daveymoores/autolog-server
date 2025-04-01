@@ -1,13 +1,41 @@
 import Link from "next/link";
 import React, { useState } from "react";
+import { useRouter } from "next/router";
+import Button from "../components/Button/Button";
+import toast from "react-hot-toast";
 
 const Documentation = () => {
   const [activeSection, setActiveSection] = useState("introduction");
+  const router = useRouter();
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
     document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+    router.push(`#${sectionId}`, undefined, { shallow: true });
   };
+
+  React.useEffect(() => {
+    const handleHashChange = () => {
+      const sectionId = window.location.hash.replace("#", "");
+
+      if (sectionId) {
+        setActiveSection(sectionId);
+        document
+          .getElementById(sectionId)
+          ?.scrollIntoView({ behavior: "smooth" });
+      }
+    };
+
+    // Scroll to the section if there's a hash in the URL on initial load
+    handleHashChange();
+
+    // Listen for hash changes
+    window.addEventListener("hashchange", handleHashChange);
+
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, []);
 
   return (
     <article className="lg:mt-24 mt-12 mx-auto lg:max-w-screen-xl">
@@ -31,7 +59,7 @@ const Documentation = () => {
                     { id: "remove", label: "Remove Command" },
                     { id: "update", label: "Update Command" },
                     { id: "list", label: "List Command" },
-                    { id: "approval", label: "Timesheet Approval" },
+                    { id: "approvals", label: "Timesheet Approval" },
                     { id: "examples", label: "Examples" },
                     { id: "troubleshooting", label: "Troubleshooting" },
                     { id: "privacy", label: "Privacy" },
@@ -344,7 +372,7 @@ const Documentation = () => {
                 </p>
               </section>
 
-              <section id="approval" className="mb-12">
+              <section id="approvals" className="mb-12">
                 <h2 className="text-2xl font-bold text-green-100 mb-4">
                   Timesheet Approval Process
                 </h2>
@@ -362,82 +390,179 @@ const Documentation = () => {
                 </div>
 
                 <p className="text-green-100 mb-6">
-                  Once an approver is configured, Autolog offers a
-                  straightforward approval workflow:
+                  Once an approver is configured, your timesheet will render an
+                  approval button:
                 </p>
-
-                <div className="bg-slate-800 rounded-md p-6 mb-6">
-                  <ol className="space-y-4 text-green-100 list-decimal pl-5">
-                    <li>
-                      <span className="text-green-300 font-medium">
-                        Submit for review:
-                      </span>{" "}
-                      Click "Request Approval" when your timesheet is complete
-                    </li>
-                    <li>
-                      <span className="text-green-300 font-medium">
-                        Manager review:
-                      </span>{" "}
-                      Your approver receives an email with a secure link to your
-                      timesheet
-                    </li>
-                    <li>
-                      <span className="text-green-300 font-medium">
-                        Approval action:
-                      </span>{" "}
-                      After reviewing, your manager can approve with one click
-                    </li>
-                    <li>
-                      <span className="text-green-300 font-medium">
-                        Confirmation:
-                      </span>{" "}
-                      You'll receive an email notification when your timesheet
-                      is approved
-                    </li>
-                  </ol>
+                <div className="flex justify-center bg-slate-800 p-8 rounded-md mb-4">
+                  <Button
+                    text="Request Approval"
+                    variant="secondary"
+                    onClick={() => {
+                      toast.promise(
+                        new Promise((resolve) => setTimeout(resolve, 2000)),
+                        {
+                          loading: "Requesting approval...",
+                          success: "Approval requested!",
+                          error: "Error requesting approval",
+                        }
+                      );
+                    }}
+                  />
                 </div>
 
-                <p className="text-green-100 text-sm italic">
-                  All approval links are secured with cryptographic tokens to
-                  ensure only authorized users can approve timesheets.
+                <p className="text-green-100 mb-6">
+                  Your designated approver will receive an email notification
+                  with a link to approve your timesheet. The link has a unique
+                  identifier that means only the user with access to the email
+                  can approve it.
                 </p>
+                <div className="flex justify-center bg-slate-800 p-8 rounded-md mb-4">
+                  <Button
+                    text="Approve Timesheet"
+                    variant="secondary"
+                    onClick={() => {
+                      toast.promise(
+                        new Promise((resolve) => setTimeout(resolve, 2000)),
+                        {
+                          loading: "Approving timesheet...",
+                          success: "Timesheet approved!",
+                          error: "Failed to approve timesheet",
+                        }
+                      );
+                    }}
+                  />
+                </div>
+
+                <p className="text-green-100 mb-6">
+                  Once approved, you will receive an email notification with a
+                  link to your approved timesheet.
+                </p>
+
+                <div className="flex justify-center bg-slate-800 p-8 rounded-md mb-4">
+                  <div className="flex items-center gap-2 bg-green-100/10 text-green-100 py-2 px-4 rounded-md">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      className="h-5 w-5 fill-current"
+                    >
+                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                    </svg>
+                    <span className="font-semibold">Approved</span>
+                  </div>
+                </div>
               </section>
 
               <section id="examples" className="mb-12">
                 <h2 className="text-2xl font-bold text-green-100 mb-4">
-                  Usage Examples
+                  Examples
                 </h2>
-
-                <h3 className="text-lg font-semibold text-green-300 mt-6 mb-2">
-                  Initialize for current repository:
+                <h3 className="text-xl font-bold text-green-100 mb-4">
+                  General Usage
                 </h3>
+
+                <p>
+                  As a freelance software engineer, you might be working for
+                  multiple clients in a month. Keeping track of which days you
+                  worked for each client can be challenging. Autolog simplifies
+                  this process. Here's an example:
+                </p>
+                <div className="space-y-3 mt-4 mb-12">
+                  <div className="flex items-start space-x-3">
+                    <div className="bg-slate-800 p-2 rounded-md mt-1">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    </div>
+                    <p className="text-green-100">
+                      <span className="text-green-300 font-medium">
+                        Step 1:
+                      </span>{" "}
+                      Navigate to each of Client A's repositories and run{" "}
+                      <code className="bg-black px-2 py-1 rounded">
+                        autolog init
+                      </code>
+                      . You will be prompted to add the repository to an
+                      existing client or create a new client.
+                    </p>
+                  </div>
+
+                  <div className="flex items-start space-x-3">
+                    <div className="bg-slate-800 p-2 rounded-md mt-1">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    </div>
+                    <p className="text-green-100">
+                      <span className="text-green-300 font-medium">
+                        Step 2:
+                      </span>{" "}
+                      Repeat the same process for Client B's repositories.
+                    </p>
+                  </div>
+
+                  <div className="flex items-start space-x-3">
+                    <div className="bg-slate-800 p-2 rounded-md mt-1">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    </div>
+                    <p className="text-green-100">
+                      <span className="text-green-300 font-medium">
+                        Step 3:
+                      </span>{" "}
+                      At the end of the month, run{" "}
+                      <code className="bg-black px-2 py-1 rounded">
+                        autolog make --client "Client A"
+                      </code>{" "}
+                      to generate a timesheet for Client A.
+                    </p>
+                  </div>
+
+                  <div className="flex items-start space-x-3">
+                    <div className="bg-slate-800 p-2 rounded-md mt-1">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    </div>
+                    <p className="text-green-100">
+                      <span className="text-green-300 font-medium">
+                        Step 4:
+                      </span>{" "}
+                      Similarly, run{" "}
+                      <code className="bg-black px-2 py-1 rounded">
+                        autolog make --client "Client B"
+                      </code>{" "}
+                      to generate a timesheet for Client B.
+                    </p>
+                  </div>
+                </div>
+
+                <h3 className="text-xl font-bold text-green-100 mb-4">
+                  Command Usage Examples
+                </h3>
+
+                <h4 className="text-lg font-semibold text-green-300 mt-6 mb-2">
+                  Initialize for current repository:
+                </h4>
                 <div className="p-6 rounded-md bg-black mb-4 drop-shadow-xl">
                   <div className="text-green-100 font-mono">
                     <span className="text-green-300">$</span> autolog init
                   </div>
                 </div>
 
-                <h3 className="text-lg font-semibold text-green-300 mt-6 mb-2">
+                <h4 className="text-lg font-semibold text-green-300 mt-6 mb-2">
                   Generate a timesheet for January:
-                </h3>
+                </h4>
                 <div className="p-6 rounded-md bg-black mb-4 drop-shadow-xl">
                   <div className="text-green-100 font-mono">
                     <span className="text-green-300">$</span> autolog make -m1
                   </div>
                 </div>
 
-                <h3 className="text-lg font-semibold text-green-300 mt-6 mb-2">
+                <h4 className="text-lg font-semibold text-green-300 mt-6 mb-2">
                   Log 8 hours for today:
-                </h3>
+                </h4>
                 <div className="p-6 rounded-md bg-black mb-4 drop-shadow-xl">
                   <div className="text-green-100 font-mono">
                     <span className="text-green-300">$</span> autolog edit -h8
                   </div>
                 </div>
 
-                <h3 className="text-lg font-semibold text-green-300 mt-6 mb-2">
+                <h4 className="text-lg font-semibold text-green-300 mt-6 mb-2">
                   Log 6 hours for a specific date:
-                </h3>
+                </h4>
                 <div className="p-6 rounded-md bg-black mb-4 drop-shadow-xl">
                   <div className="text-green-100 font-mono">
                     <span className="text-green-300">$</span> autolog edit -h6
