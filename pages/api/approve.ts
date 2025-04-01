@@ -26,7 +26,7 @@ export async function sendApprovalEmail(
 
   try {
     const data = await mg.messages.create(env_vars.MAILGUN_DOMAIN, {
-      from: `Autolog <postmaster@${env_vars.MAILGUN_DOMAIN}>`,
+      from: `Autolog <no-reply@${env_vars.MAILGUN_DOMAIN}>`,
       to: [`${user_name} <${user_email}>`],
       subject: `Timesheet for ${period} Has Been Approved`,
       template: "Approval Template",
