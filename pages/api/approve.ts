@@ -18,8 +18,7 @@ export async function sendApprovalEmail(
   const mg = mailgun.client({
     username: "api",
     key: env_vars.MAILGUN_API_KEY,
-    // When you have an EU-domain, you must specify the endpoint:
-    // url: "https://api.eu.mailgun.net/v3"
+    url: "https://api.eu.mailgun.net",
   });
 
   const timesheet_url = `${env_vars.SITE_URL}/${timesheet_id}`;
@@ -29,7 +28,7 @@ export async function sendApprovalEmail(
       from: `Autolog <no-reply@${env_vars.MAILGUN_DOMAIN}>`,
       to: [`${user_name} <${user_email}>`],
       subject: `Timesheet for ${period} Has Been Approved`,
-      template: "Approval Template",
+      template: "approval template",
       "h:X-Mailgun-Variables": JSON.stringify({
         approvers_name: approvers_name,
         autolog_user_name: user_name,

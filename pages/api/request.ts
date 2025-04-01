@@ -59,8 +59,7 @@ export default async function handler(
     const mg = mailgun.client({
       username: "api",
       key: mailgunApiKey,
-      // When you have an EU-domain, uncomment this:
-      // url: "https://api.eu.mailgun.net"
+      url: "https://api.eu.mailgun.net",
     });
 
     // Send the approval request email
@@ -69,7 +68,7 @@ export default async function handler(
         from: `Autolog <no-reply@${mailgunDomain}>`,
         to: [approvers_email],
         subject: `${user.name} Has Requested You Approve Their Timesheet for ${period}`,
-        template: "Autolog Request Approval",
+        template: "request template",
         "h:X-Mailgun-Variables": JSON.stringify({
           approvers_name: approvers_name,
           autolog_user_name: user.name,
