@@ -21,6 +21,8 @@ describe("get_connection_vars", () => {
     process.env.MAILGUN_API_KEY = "test";
     process.env.MAILGUN_DOMAIN = "test";
     process.env.SIGNED_TOKEN_SECRET = "test";
+    process.env.EXPIRE_TIME_SECONDS = "86400";
+    process.env.API_ROUTE_BEARER_KEY = "test";
 
     expect(get_env_vars(ENV_VARS)).toEqual({
       MONGODB_URI: "these",
@@ -31,6 +33,8 @@ describe("get_connection_vars", () => {
       MAILGUN_API_KEY: "test",
       MAILGUN_DOMAIN: "test",
       SIGNED_TOKEN_SECRET: "test",
+      EXPIRE_TIME_SECONDS: "86400",
+      API_ROUTE_BEARER_KEY: "test",
     });
   });
 
