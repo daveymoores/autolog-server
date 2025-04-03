@@ -29,7 +29,10 @@ class MyApp extends App {
             property="og:description"
             content="Autolog scans your Git commits to identify worked days across multiple repositories and clients. Generate timesheets in seconds."
           />
-          <meta property="og:image" content="/logo.svg" />
+          <meta
+            property="og:image"
+            content="https://autolog.dev/autolog-preview.png"
+          />
           <meta property="og:url" content="https://autolog.dev" />
           <meta property="og:type" content="website" />
           {/* Twitter Card */}
@@ -42,7 +45,10 @@ class MyApp extends App {
             name="twitter:description"
             content="Track worked days across multiple repositories and clients using your Git history. Generate timesheets in seconds."
           />
-          <meta name="twitter:image" content="/autolog-preview.png" />
+          <meta
+            name="twitter:image"
+            content="https://autolog.dev/autolog-preview.png"
+          />
           <meta name="theme-color" content="#16A34A" />
         </Head>
         <Toaster />
