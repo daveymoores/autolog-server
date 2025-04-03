@@ -44,6 +44,8 @@ nextApp.prepare().then(async () => {
   const app: Express = express();
   const server: http.Server = http.createServer(app);
 
+  app.set("trust proxy", 1);
+
   app.use(cors());
   app.use(bodyParser.json());
 
