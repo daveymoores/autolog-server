@@ -19,6 +19,8 @@ describe("connect_to_db", () => {
       MAILGUN_API_KEY: "test",
       MAILGUN_DOMAIN: "test",
       SIGNED_TOKEN_SECRET: "test",
+      EXPIRE_TIME_SECONDS: "86400",
+      API_ROUTE_BEARER_KEY: "test",
     };
     const obj = await connect_to_db(connection_vars);
     expect(obj).toMatchInlineSnapshot(`
