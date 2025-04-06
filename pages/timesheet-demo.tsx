@@ -61,35 +61,50 @@ export const getServerSideProps: GetServerSideProps<
   const env_vars = get_env_vars(ENV_VARS);
   const DEMO_TIMESHEET_STRING = "86bczf1oqv";
 
-  const data = await getRecord(DEMO_TIMESHEET_STRING, env_vars, true);
+  try {
+    const data = await getRecord(DEMO_TIMESHEET_STRING, env_vars, true);
 
-  if (!data) {
+    if (!data) {
+      return {
+        notFound: true,
+      };
+    }
+
+    const {
+      timesheets,
+      client,
+      random_path: path,
+      month_year,
+      user,
+      _id,
+    } = data;
+
+    const id = new ObjectId(_id).toString();
+
+    return {
+      props: {
+        params: {
+          id,
+          path,
+          timesheets,
+          client,
+          user,
+          month_year,
+          requires_approval: false,
+          signed_token: null,
+          approved: false,
+          approvers_name: null,
+          approvers_email: null,
+        },
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+
     return {
       notFound: true,
     };
   }
-
-  const { timesheets, client, random_path: path, month_year, user, _id } = data;
-
-  const id = new ObjectId(_id).toString();
-
-  return {
-    props: {
-      params: {
-        id,
-        path,
-        timesheets,
-        client,
-        user,
-        month_year,
-        requires_approval: false,
-        signed_token: null,
-        approved: false,
-        approvers_name: null,
-        approvers_email: null,
-      },
-    },
-  };
 };
 
 export default Index;

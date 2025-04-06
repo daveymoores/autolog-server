@@ -66,49 +66,58 @@ export const getServerSideProps: GetServerSideProps<
   const { signed_token: token }: { signed_token?: string } = context.query;
   const { timesheet } = context.params ?? {};
   const env_vars = get_env_vars(ENV_VARS);
-  const data = await getRecord(timesheet, env_vars);
 
-  if (!data) {
+  try {
+    const data = await getRecord(timesheet, env_vars);
+
+    if (!data) {
+      return {
+        notFound: true,
+      };
+    }
+
+    const {
+      requires_approval = null,
+      timesheets,
+      client,
+      random_path: path,
+      month_year,
+      user,
+      _id,
+      approved,
+      approver,
+    } = data;
+
+    const { approvers_name, approvers_email } = approver ?? {};
+
+    const signed_token = token ?? null;
+
+    const id = new ObjectId(_id).toString();
+
+    return {
+      props: {
+        params: {
+          id,
+          path,
+          timesheets,
+          client,
+          user,
+          month_year,
+          signed_token,
+          requires_approval,
+          approved,
+          approvers_email,
+          approvers_name,
+        },
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+
     return {
       notFound: true,
     };
   }
-
-  const {
-    requires_approval = null,
-    timesheets,
-    client,
-    random_path: path,
-    month_year,
-    user,
-    _id,
-    approved,
-    approver,
-  } = data;
-
-  const { approvers_name, approvers_email } = approver ?? {};
-
-  const signed_token = token ?? null;
-
-  const id = new ObjectId(_id).toString();
-
-  return {
-    props: {
-      params: {
-        id,
-        path,
-        timesheets,
-        client,
-        user,
-        month_year,
-        signed_token,
-        requires_approval,
-        approved,
-        approvers_email,
-        approvers_name,
-      },
-    },
-  };
 };
 
 export default Index;
