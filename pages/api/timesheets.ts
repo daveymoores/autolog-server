@@ -47,14 +47,14 @@ export default async function handler(
     // Check and create TTL index if needed
     const indexes = await collection.listIndexes().toArray();
     const ttlIndexExists = indexes.some(
-      (index) => index.name === "expiration_date"
+      (index) => index.name === "creation_date"
     );
 
     if (!ttlIndexExists) {
       await collection.createIndex(
         { creation_date: 1 },
         {
-          name: "expiration_date",
+          name: "creation_date",
           expireAfterSeconds: parseInt(env_vars.EXPIRE_TIME_SECONDS, 10),
         }
       );
