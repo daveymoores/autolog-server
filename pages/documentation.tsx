@@ -95,7 +95,7 @@ const Documentation = () => {
                   </span>{" "}
                   from your git log.
                 </p>
-                <p className="text-green-100">
+                <p className="text-green-100 font-bold mb-4">
                   Autolog is a minimal configuration timesheet tool that
                   leverages your git activity to generate professional
                   timesheets. Simply initialize repositories under a client,
@@ -104,6 +104,28 @@ const Documentation = () => {
                   needed, generate a timesheet that allocates hours across your
                   repositories, request manager approval with a click, and share
                   via PDF or secure link.
+                </p>
+                <p className="text-green-100 mb-4">
+                  As a freelance developer, one of my annoyances each month is
+                  going back through my git history and calendar events to
+                  figure out which days I worked for any particular client. Once
+                  you have multiple repositories, this is further compounded.
+                  For my use case, existing time tracking tools were too
+                  granular - most of the time I was working a day/half day for a
+                  client, so I wanted something that would sit in the background
+                  and generate a timesheet for me at the end of the month, with
+                  some nice design aesthetics and a simple approval workflow.
+                </p>
+                <p className="text-green-100 mb-4">
+                  Autolog tries to achieve this by estimating worked hours from
+                  commits in your git log. If you initialise Autolog against 3
+                  repositories, assuming an 8 hour day, then it will split your
+                  working hours across the three repositories as 3, 3, and 2.
+                  Once the month ends you simply generate a timesheet for each
+                  client and request approval (if required).
+                </p>
+                <p className="text-green-100">
+                  This workflow is perhaps better explained in a video.
                 </p>
               </section>
 
