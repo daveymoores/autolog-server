@@ -36,9 +36,17 @@ export default async function handler(
       return res.status(409).json({ error: "Path already exists" });
     }
 
-    // Ensure creation_date is a Date object
+    // Check for long format epoc that the cli sends
+    const timestamp = Number(
+      document.creation_date?.["$date"]?.["$numberLong"]
+    );
+
+    // On the off chance its a string
     if (typeof document.creation_date === "string") {
       document.creation_date = new Date(document.creation_date);
+    } else if (timestamp) {
+      const creationDate = new Date(Number(timestamp));
+      document.creation_date = creationDate;
     }
 
     // Insert the document

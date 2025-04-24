@@ -168,7 +168,7 @@ describe("/api/timesheets API Endpoint", () => {
     expect(mockCreateIndex).toHaveBeenCalledWith(
       { creation_date: 1 },
       {
-        name: "expiration_date",
+        name: "creation_date",
         expireAfterSeconds: 2592000, // Parsed from the env vars
       }
     );
@@ -185,7 +185,7 @@ describe("/api/timesheets API Endpoint", () => {
       toArray: jest
         .fn()
         .mockResolvedValue([
-          { name: "expiration_date" },
+          { name: "creation_date" },
           { name: "other_index" },
         ]),
     });
