@@ -50,6 +50,11 @@ class MyApp extends App {
             content="https://autolog.dev/autolog-preview.png"
           />
           <meta name="theme-color" content="#16A34A" />
+          <script
+            data-goatcounter="https://farharbour.goatcounter.com/count"
+            async
+            src="//gc.zgo.at/count.js"
+          ></script>
         </Head>
         <Toaster />
         <Component {...pageProps} />
