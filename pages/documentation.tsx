@@ -124,9 +124,13 @@ const Documentation = () => {
                   Once the month ends you simply generate a timesheet for each
                   client and request approval (if required).
                 </p>
-                <p className="text-green-100">
+                <p className="text-green-100 mb-6">
                   This workflow is perhaps better explained in a video.
                 </p>
+                <video controls width="100%" height="auto" preload="metadata">
+                  <source src="/reddit_autolog_vid.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
               </section>
 
               <section id="installation" className="mb-12">
@@ -235,7 +239,8 @@ const Documentation = () => {
                   </div>
                 </div>
                 <p className="text-green-100 mb-4">
-                  Generates a new timesheet on a unique link.
+                  Generates a new timesheet on a unique link. The link will
+                  expire after 24 hours.
                 </p>
                 <h3 className="text-lg font-semibold text-green-300 mt-6 mb-2">
                   Options:
@@ -274,7 +279,16 @@ const Documentation = () => {
                   </div>
                 </div>
                 <p className="text-green-100 mb-4">
-                  Changes the hours worked value for a given day.
+                  Changes the hours worked value for a given day. <br />
+                  <br />
+                  By default Autolog will assume any commits on a day to be a
+                  full working day (defaults to 8 hours). For multiple
+                  repositories under a single client, these hours are split i.e.
+                  commits on two seperate repositories would be 4 hours on each
+                  repository for an 8 hour day. <b>Edits</b> to the repository
+                  overwrites this behaviour, so it is possible to work 4 hours
+                  on repo A, then `autolog edit -h 10` to work 10 hours on repo
+                  B.
                 </p>
                 <h3 className="text-lg font-semibold text-green-300 mt-6 mb-2">
                   Options:
